@@ -1,0 +1,41 @@
+program,blockCuParanteze,blockInstructiuni,declaratie,declvector,instructiune,tip,identificator,atribuire,io,print,read,ptPrintRepetare,ptPrint,
+string,constanta,cifra,numar,expresie,termen,factor,if,for,conditie,relatie,litera,cifraFara0,identificatorOrice,cifre,caracter,caracterRepetare
+#
+"program","{","}",";"," ","[]","=","new","[","]","(",")",":","+","-","*","/","if","for","else","<","++","<=","==","!=",">=",">","!","
+"char","string","int","1","2","3","4","5","6","7","8","9","0","_","'","A","B","C","D","E","F","G"| "H","I","J","K","L","M","N","O","P",
+"Q","R","S","T","U","V","W","X","Y","Z","a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z",
+"read","print"
+#
+program
+#
+program -> "program"  blockCuParanteze
+blockCuParanteze -> "{"  blockInstructiuni "}"
+blockInstructiuni ->  declaratie | declvector | instructiune | declaratie ";"  blockInstructiuni | declvector ";"  blockInstructiuni| instructiune ";"  blockInstructiuni
+declaratie ->  tip " "  identificator ";" 
+declVector ->   tip "[]" " "  identificator | tip "[]" " "  identificator "=" "new" " "  tip "["  numar "]";
+instructiune ->  io";"| atribuire";"| if";"| for";"
+io ->   print| read
+print -> "print" "("  ptPrintRepetare ")" 
+ptPrintRepetare ->  ptPrint | ptPrint  ptPrintRepetare
+ptPrint ->  string| constanta| cifra| identificator |  identificator "["  numar "]" | ":" ;
+read -> "read" "("  identificator ")" | "read" "("  identificator "["  numar "]" ")"
+atribuire ->  identificator "="  expresie |  identificator "["  numar "]" "="  expresie 
+expresie ->  expresie "+" termen | expresie "-" termen | termen
+termen -> termen "*" factor | termen "/" factor  | factor
+factor -> "(" expresie ")" | "(" constanta ")"| numar | identificator | identificator "[" numar "]"
+if -> "if" "(" conditie ")" blockCuParanteze | "if" "(" conditie ")" blockCuParanteze "else" blockCuParanteze
+conditie -> termen relatie termen
+for -> "for" "(" identificator "=" numar ";" identificator "<" numar ";" identificator "++" ")" blockCuParanteze
+relatie -> "<" | "<=" | "==" | "!=" | ">=" | ">" | "!"
+tip -> "char" | "string" | "int"
+litera -> "A" | "B" | "C" | "D" | "E" | "F" | "G"| "H" | "I" | "J" | "K" | "L" | "M" | "N"| "O" | "P" | "Q" | "R" | "S" | "T" | "U"| "V" | "W" | "X" | "Y" | "Z" | "a" | "b"| "c" | "d" | "e" | "f" | "g" | "h" | "i"| "j" | "k" | "l" | "m" | "n" | "o" | "p"| "q" | "r" | "s" | "t" | "u" | "v" | "w"| "x" | "y" | "z" 
+cifraFara0 ->"1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9"
+cifra -> "0" |  cifraFara0
+identificator ->  litera |  litera  identificatorOrice
+identificatorOrice -> cifra | litera | "_" | cifra  identificatorOrice | litera identificatorOrice | "_"  identificatorOrice
+constanta -> "+"  numar | "-"  numar |  numar | "0";
+numar ->  cifraFara0 |  cifre;
+cifre ->  cifra |  cifra  cifre
+caracter ->  litera;
+string = "'"  caracterRepetare "'" 
+caracterRepetare -> caracter | caracter  caracterRepetare
