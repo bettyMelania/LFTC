@@ -112,11 +112,8 @@ public class Functionalitati {
         return true;
     }
 
-    public void first(Gramatica g){
-        if(g==null) {
-            System.out.println("Ceva e incorect! ");
-            return;
-        }
+    public HashMap<String,Set<String>> first(Gramatica g){
+
 
         Set<String> terminale=g.getTerminale();
         Set<String> neterminale=g.getNeterminale();
@@ -178,13 +175,10 @@ public class Functionalitati {
 
         }
         printFirst(FIRST);
+        return FIRST;
     }
 
-    public void follow(Gramatica g){
-        if(g==null) {
-            System.out.println("Ceva e incorect! ");
-            return;
-        }
+    public HashMap<String,Set<String>> follow(Gramatica g,HashMap<String,Set<String>> FIRST){
 
         Set<String> terminale=g.getTerminale();
         Set<String> neterminale=g.getNeterminale();
@@ -194,10 +188,91 @@ public class Functionalitati {
 
         HashMap<String,Set<String>> FOLLOW=new HashMap<>();
 
-        //TO DO
+        //INTIIALIZARE
+        for(String net:neterminale){
+            Set follows=new HashSet<String>();
+            if(net.equals(start))
+                follows.add("~");
+            FOLLOW.put(net,follows);
+        }
+        boolean repeat=true;
+        while(repeat){
+            repeat=false;
+            for(String neterminal:neterminale) {
+                for (HashMap.Entry<String, Productie> entry : productii.entrySet()) {
+                    String net=entry.getKey();
+                    for (String rez : entry.getValue().getRezultate()) {
+                        if (rez.contains(neterminal)){
+                            List<String> elems=Arrays.asList(rez.split(" "));
+                            int i=elems.indexOf(neterminal);
+                            boolean cont=true;
+                            String follow;
+                            if(i==elems.size()-1){
+                                for (String s : FOLLOW.get(net)) {
+                                    if (s != "~") {
+                                        if (!FOLLOW.get(neterminal).contains(s)) {
+                                            FOLLOW.get(neterminal).add(s);
+                                            repeat = true;
+                                        }
+                                    }
+                                }
+                                if(net.equals(start)) {
+                                    if (!FOLLOW.get(neterminal).contains("~")) {
+                                        FOLLOW.get(neterminal).add("~");
+                                        repeat = true;
+                                    }
+                                }
+                            }
+                            while(cont){
+                                cont=false;
+                                i++;if(i==elems.size())break;
+                                follow=elems.get(i);
+                                if(terminale.contains(follow)) {
+                                    if(!FOLLOW.get(neterminal).contains(follow)) {
+                                        FOLLOW.get(neterminal).add(follow);
+                                        repeat = true;
+                                    }
+                                    if(i==elems.size()-1)
+                                        break;
+                                }
+                                else if(neterminale.contains(follow)){
+                                        for (String s : FIRST.get(follow)) {
+                                            if (s != "~") {
+                                                if(!FOLLOW.get(neterminal).contains(s)) {
+                                                    FOLLOW.get(neterminal).add(s);
+                                                    repeat = true;
+                                                };
+                                            } else
+                                                cont = true;
+                                        }
+                                       if(i==elems.size()-1) { //ultima
+                                            for (String s : FOLLOW.get(follow)) {
+                                                if (s != "~") {
+                                                    if (!FOLLOW.get(neterminal).contains(s)) {
+                                                        FOLLOW.get(neterminal).add(s);
+                                                        repeat = true;
+                                                    }
+                                                }
+                                            }
+                                            if(net.equals(start)) {
+                                                if (!FOLLOW.get(neterminal).contains("~")) {
+                                                    FOLLOW.get(neterminal).add("~");
+                                                    repeat = true;
+                                                }
+                                            }
+                                            break;
+                                        }
 
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+        }
 
         printFollow(FOLLOW);
+        return FOLLOW;
     }
 
 
@@ -223,4 +298,7 @@ public class Functionalitati {
         }
     }
 
+    public void creareTabel() {
+
+    }
 }
