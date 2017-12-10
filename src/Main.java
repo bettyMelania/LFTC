@@ -10,7 +10,6 @@ public class Main {
             return;
         HashMap<String,Set<String>> FIRST= f.first(g);
         HashMap<String,Set<String>> FOLLOW=f.follow(g,FIRST);
-        f.creareTabel();
-
+        f.creareTabel(g,FIRST,FOLLOW);
     }
 }
