@@ -315,7 +315,8 @@ public class Functionalitati {
         netermTermLine.addAll(g.getTerminale());
         netermTermLine.add("$");
         termColumn.add("$");
-        Tabel tab = new Tabel(netermTermLine,g.getTerminale());
+        
+        Tabel tab = new Tabel(netermTermLine,termColumn);
 
         for (String name: productii.keySet())
         {
@@ -333,6 +334,14 @@ public class Functionalitati {
         {
             Set<String> firstVal = FIRST.get(netermTerm);
             Set<String> followVal = FOLLOW.get(netermTerm);
+            Set<String> fstVal = new HashSet<>();
+
+            /*
+            for (Triplet<String, String, Integer> trip : pairList)
+                if (trip.getFirst().compareTo(netermTerm) == 0)
+                    for (String prod: trip.getSecond().split(" "))
+                        fstVal = fstVal ^ FIRST.get(prod);
+             */
 
             for (String term : tab.getTermColumn()) {
                 if (netermTerm.compareTo(term) == 0 && netermTerm.compareTo("$") != 0 && term.compareTo("$") != 0) {
@@ -346,34 +355,33 @@ public class Functionalitati {
                 } else {
                     if (firstVal != null && followVal != null)
                     {
-                        for(String a : firstVal)
-                            if (a.compareTo(term) == 0 && a.compareTo("~") != 0)
-                            {
-                                for (Triplet<String,String,Integer> trip : pairList)
+                        for(String a : firstVal) {
+                            if (a.compareTo(term) == 0 && a.compareTo("~") != 0) {
+                                for (Triplet<String, String, Integer> trip : pairList)
                                     if (trip.getFirst().compareTo(netermTerm) == 0)
-                                        if (trip.getSecond().compareTo("~") != 0)
-                                        {
+                                        if (trip.getSecond().compareTo("~") != 0) {
                                             Pair<String, String> p1 = new Pair<>(netermTerm, term);
                                             Pair<String, Integer> p2 = new Pair<>(trip.getSecond(), trip.getThird());
-                                            pairSet.add(new TableElement(p1,p2));
+                                            pairSet.add(new TableElement(p1, p2));
                                         }
                             }
-                            else if (a.compareTo("~") == 0){
-                                for (String b : followVal)
-                                {
-                                    if (b.compareTo(term) == 0 && term.compareTo("$") == 0)
-                                    {
-                                        for (Triplet<String,String,Integer> trip : pairList)
+                            else if (a.compareTo("~") == 0) {
+                                for (String b : followVal) {
+                                    if (b.compareTo(term) == 0 || term.compareTo("$") == 0) {
+                                        for (Triplet<String, String, Integer> trip : pairList)
                                             if (trip.getFirst().compareTo(netermTerm) == 0)
-                                                if (trip.getSecond().compareTo("~") == 0)
-                                                {
+                                                if (trip.getSecond().compareTo("~") == 0) {
                                                     Pair<String, String> p1 = new Pair<>(netermTerm, term);
                                                     Pair<String, Integer> p2 = new Pair<>(trip.getSecond(), trip.getThird());
-                                                    pairSet.add(new TableElement(p1,p2));
+                                                    pairSet.add(new TableElement(p1, p2));
                                                 }
                                     }
                                 }
                             }
+                            else {
+
+                            }
+                        }
                     }
                 }
             }
@@ -401,7 +409,7 @@ public class Functionalitati {
         {
             Pair<String,String> p1 = elem.getPozTabel();
             Pair<String,Integer> p2 = elem.getValTabel();
-            System.out.println("( " + p1.getKey() + "," + p1.getValue() + " )" + " " + "( " + p2.getKey() + "," + p2.getValue() + " )");
+            System.out.println("( " + p1.getKey() + "," + p1.getValue() + " )" + " == " + "( " + p2.getKey() + "," + p2.getValue() + " )");
 
         }
 
