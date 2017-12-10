@@ -36,15 +36,14 @@ public class Functionalitati {
             return null;
         String[] neter=gramString.get(0).split(",");
         Set<String> neterminale=new HashSet<>();
-        for(int i=0;i<neter.length;i++){
 
-            neterminale.add(neter[i]);
-        }
+        Collections.addAll(neterminale, neter);
+
         String[] ter=gramString.get(1).split(",");
         Set<String> terminale=new HashSet<>();
-        for(int i=0;i<ter.length;i++){
-            terminale.add(ter[i]);
-        }
+
+        Collections.addAll(terminale, ter);
+
         String start=gramString.get(2);
         if(!neterminale.contains(start))
             return null;
@@ -322,9 +321,9 @@ public class Functionalitati {
         {
             String value = productii.get(name).toString();
             String segments[] = value.split("\\|");
-            for (int i=0; i< segments.length;i++)
+            for (String segment : segments)
             {
-                Triplet<String,String,Integer> newP = new Triplet<>(name,segments[i],nr);
+                Triplet<String, String, Integer> newP = new Triplet<>(name, segment, nr);
                 pairList.add(newP);
                 nr++;
             }
@@ -397,6 +396,7 @@ public class Functionalitati {
         System.out.println("=======================");
         */
 
+        System.out.println("TABEL");
         for (TableElement elem : tab.getVal())
         {
             Pair<String,String> p1 = elem.getPozTabel();
