@@ -315,7 +315,7 @@ public class Functionalitati {
         netermTermLine.addAll(g.getTerminale());
         netermTermLine.add("$");
         termColumn.add("$");
-        
+
         Tabel tab = new Tabel(netermTermLine,termColumn);
 
         for (String name: productii.keySet())
@@ -379,7 +379,9 @@ public class Functionalitati {
                                 }
                             }
                             else {
-
+                                Pair<String, String> p1 = new Pair<>(netermTerm, term);
+                                Pair<String, Integer> p2 = new Pair<>("err", 0);
+                                pairSet.add(new TableElement(p1, p2));
                             }
                         }
                     }
