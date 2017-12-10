@@ -202,59 +202,64 @@ public class Functionalitati {
                 for (HashMap.Entry<String, Productie> entry : productii.entrySet()) {
                     String net=entry.getKey();
                     for (String rez : entry.getValue().getRezultate()) {
-                        if (rez.contains(neterminal)){
-                            List<String> elems=Arrays.asList(rez.split(" "));
-                            int i=elems.indexOf(neterminal);
-                            boolean cont=true;
-                            String follow;
-                            if(i==elems.size()-1){
-                                for (String s : FOLLOW.get(net)) {
-                                    if (s != "~") {
-                                        if (!FOLLOW.get(neterminal).contains(s)) {
-                                            FOLLOW.get(neterminal).add(s);
+                        if (rez.contains(neterminal)) {
+                            List<String> elems = Arrays.asList(rez.split(" "));
+                            int i;
+                            for (int j=0;j<elems.size();j++) {
+                                if (elems.get(j).equals(neterminal)){
+                                    i=j;
+                                }else continue;
+
+                                boolean cont = true;
+                                String follow;
+                                if (i == elems.size() - 1) {
+                                    for (String s : FOLLOW.get(net)) {
+                                        if (!s.equals("~")) {
+                                            if (!FOLLOW.get(neterminal).contains(s)) {
+                                                FOLLOW.get(neterminal).add(s);
+                                                repeat = true;
+                                            }
+                                        }
+                                    }
+                                    if (net.equals(start)) {
+                                        if (!FOLLOW.get(neterminal).contains("~")) {
+                                            FOLLOW.get(neterminal).add("~");
                                             repeat = true;
                                         }
                                     }
                                 }
-                                if(net.equals(start)) {
-                                    if (!FOLLOW.get(neterminal).contains("~")) {
-                                        FOLLOW.get(neterminal).add("~");
-                                        repeat = true;
-                                    }
-                                }
-                            }
-                            while(cont){
-                                cont=false;
-                                i++;if(i==elems.size())break;
-                                follow=elems.get(i);
-                                if(terminale.contains(follow)) {
-                                    if(!FOLLOW.get(neterminal).contains(follow)) {
-                                        FOLLOW.get(neterminal).add(follow);
-                                        repeat = true;
-                                    }
-                                    if(i==elems.size()-1)
-                                        break;
-                                }
-                                else if(neterminale.contains(follow)){
+                                while (cont) {
+                                    cont = false;
+                                    i++;
+                                    if (i == elems.size()) break;
+                                    follow = elems.get(i);
+                                    if (terminale.contains(follow)) {
+                                        if (!FOLLOW.get(neterminal).contains(follow)) {
+                                            FOLLOW.get(neterminal).add(follow);
+                                            repeat = true;
+                                        }
+                                        if (i == elems.size() - 1)
+                                            break;
+                                    } else if (neterminale.contains(follow)) {
                                         for (String s : FIRST.get(follow)) {
-                                            if (s != "~") {
-                                                if(!FOLLOW.get(neterminal).contains(s)) {
+                                            if (!s.equals("~")) {
+                                                if (!FOLLOW.get(neterminal).contains(s)) {
                                                     FOLLOW.get(neterminal).add(s);
                                                     repeat = true;
-                                                };
+                                                }
                                             } else
                                                 cont = true;
                                         }
-                                       if(i==elems.size()-1) { //ultima
+                                        if (i == elems.size() - 1) { //ultima
                                             for (String s : FOLLOW.get(follow)) {
-                                                if (s != "~") {
+                                                if (!s.equals("~")) {
                                                     if (!FOLLOW.get(neterminal).contains(s)) {
                                                         FOLLOW.get(neterminal).add(s);
                                                         repeat = true;
                                                     }
                                                 }
                                             }
-                                            if(net.equals(start)) {
+                                            if (net.equals(start)) {
                                                 if (!FOLLOW.get(neterminal).contains("~")) {
                                                     FOLLOW.get(neterminal).add("~");
                                                     repeat = true;
@@ -266,6 +271,7 @@ public class Functionalitati {
                                     }
                                 }
                             }
+                        }
                         }
                     }
                 }

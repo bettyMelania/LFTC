@@ -1,8 +1,7 @@
-S,A
+S
 #
-a,b
+a,+,-
 #
 S
 #
-S->a b A|~
-A->S a a|b
+S->+ S S|- S S|a
