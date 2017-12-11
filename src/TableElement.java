@@ -2,8 +2,8 @@ import javafx.util.Pair;
 
 public class TableElement
 {
-    private Pair<String,String> pozTabel;
-    private Pair<String,Integer> valTabel;
+    private Pair<String,String> pozTabel; // key=randuri && value=coloana
+    private Pair<String,Integer> valTabel; // key=productie/pop/err/acc  && value=nr productie
 
     public TableElement()
     {
