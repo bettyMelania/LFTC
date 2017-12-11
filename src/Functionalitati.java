@@ -321,6 +321,7 @@ public class Functionalitati {
         for (String name: productii.keySet())
         {
             String value = productii.get(name).toString();
+            value = value.replaceAll("\n", "");
             String segments[] = value.split("\\|");
             for (String segment : segments)
             {
@@ -330,78 +331,94 @@ public class Functionalitati {
             }
         }
 
-        for (String netermTerm : tab.getNetermTermLine())
-        {
-            Set<String> firstVal = FIRST.get(netermTerm);
-            Set<String> followVal = FOLLOW.get(netermTerm);
-            Set<String> fstVal = new HashSet<>();
-            int ok = 0;
+        for (String netermTerm : tab.getNetermTermLine()) {
+            if (g.getTerminale().contains(netermTerm)) {
+                for (String term : tab.getTermColumn()) {
+                    if (netermTerm.compareTo(term) == 0 && netermTerm.compareTo("$") != 0 && term.compareTo("$") != 0) {
+                        Pair<String, String> p1 = new Pair<>(netermTerm, term);
+                        Pair<String, Integer> p2 = new Pair<>("pop", 0);
+                        pairSet.add(new TableElement(p1, p2));
+                    } else if (netermTerm.compareTo(term) == 0 && netermTerm.compareTo("$") == 0 && term.compareTo("$") == 0) {
+                        Pair<String, String> p1 = new Pair<>(netermTerm, term);
+                        Pair<String, Integer> p2 = new Pair<>("acc", 0);
+                        pairSet.add(new TableElement(p1, p2));
+                    }
+                }
+            } else {
 
-            /*
-            for (Triplet<String, String, Integer> trip : pairList)
-                if (trip.getFirst().compareTo(netermTerm) == 0)
-                    for (String prod: trip.getSecond().split(" "))
-                        fstVal = fstVal ^ FIRST.get(prod);
-             */
+                Set<Pair<Integer, Set<String>>> firstVal = new HashSet<>();
+                Set<String> followVal = FOLLOW.get(netermTerm);
+                int ok = 0;
 
-            for (String term : tab.getTermColumn())
-            {
-                ok = 0;
-                if (netermTerm.compareTo(term) == 0 && netermTerm.compareTo("$") != 0 && term.compareTo("$") != 0) {
-                    Pair<String, String> p1 = new Pair<>(netermTerm, term);
-                    Pair<String, Integer> p2 = new Pair<>("pop", 0);
-                    pairSet.add(new TableElement(p1, p2));
-                } else if (netermTerm.compareTo(term) == 0 && netermTerm.compareTo("$") == 0 && term.compareTo("$") == 0) {
-                    Pair<String, String> p1 = new Pair<>(netermTerm, term);
-                    Pair<String, Integer> p2 = new Pair<>("acc", 0);
-                    pairSet.add(new TableElement(p1, p2));
-                } else {
-                    if (firstVal != null && followVal != null)
-                    {
-                        for(String a : firstVal) {
-                            if (a.compareTo(term) == 0 && a.compareTo("~") != 0) {
-                                if (ok == 0)
+
+                for (Triplet<String, String, Integer> trip : pairList)
+                    if (trip.getFirst().compareTo(netermTerm) == 0)
+                        if (!trip.getSecond().equals("~")) {
+                            firstVal.add(new Pair<>(trip.getThird(), firstProductie(trip.getSecond(), FIRST, g)));
+                        } else {
+                            Set<String> temps = new HashSet<>();
+                            temps.add("~");
+                            firstVal.add(new Pair<>(trip.getThird(), temps));
+                        }
+
+                for (String term : tab.getTermColumn()) {
+                    Pair<String, Integer> savedValues = new Pair<>("", 0);
+                    ok = 0;
+                    if (firstVal != null && followVal != null) {
+                        for (Pair<Integer, Set<String>> elem : firstVal)
+                            for (String a : elem.getValue()) {
+                                if (a.compareTo(term) == 0 && a.compareTo("~") != 0) {
                                     for (Triplet<String, String, Integer> trip : pairList)
                                         if (trip.getFirst().compareTo(netermTerm) == 0)
                                             if (trip.getSecond().compareTo("~") != 0) {
                                                 Pair<String, String> p1 = new Pair<>(netermTerm, term);
                                                 Pair<String, Integer> p2 = new Pair<>(trip.getSecond(), trip.getThird());
+                                                savedValues = p2;
                                                 pairSet.add(new TableElement(p1, p2));
                                                 ok = 1;
+                                                break;
                                             }
-                            }
-                            else if (a.compareTo("~") == 0) {
-                                for (String b : followVal) {
-                                    if (b.compareTo(term) == 0 || term.compareTo("$") == 0)
-                                        if (ok == 0)
-                                        {
+                                } else if (a.compareTo("~") == 0) {
+                                    for (String b : followVal) {
+                                        if (b.compareTo(term) == 0 || term.compareTo("$") == 0)
                                             for (Triplet<String, String, Integer> trip : pairList)
                                                 if (trip.getFirst().compareTo(netermTerm) == 0)
                                                     if (trip.getSecond().compareTo("~") == 0) {
                                                         Pair<String, String> p1 = new Pair<>(netermTerm, term);
                                                         Pair<String, Integer> p2 = new Pair<>(trip.getSecond(), trip.getThird());
+                                                        savedValues = p2;
                                                         pairSet.add(new TableElement(p1, p2));
                                                         ok = 1;
+                                                        break;
                                                     }
-                                        }
+                                    }
+                                } else if (ok == 0) {
+                                    /*
+                                    Pair<String, String> p1 = new Pair<>(netermTerm, term);
+                                    Pair<String, Integer> p2 = new Pair<>("err", 0);
+                                    pairSet.add(new TableElement(p1, p2));
+                                    */
+                                    ok = 1;
+                                } else if (ok == 1) {
+
+                                    for (Triplet<String, String, Integer> trip : pairList)
+                                        if (trip.getFirst().compareTo(netermTerm) == 0)
+                                            if (trip.getSecond().compareTo("~") == 0) {
+                                                Pair<String, String> p1 = new Pair<>(netermTerm, term);
+                                                System.out.println("NU ESTE LL(1) IN NETERMINALUL" + term + "PRODUCTIILE ( " + savedValues.getKey() + "," + savedValues.getValue() + " )" + " , (" + p1.getKey() + "," + p1.getValue() + ")");
+                                                break;
+                                            }
+
+                                    break;
                                 }
                             }
-                            else if (ok == 0){
-                                Pair<String, String> p1 = new Pair<>(netermTerm, term);
-                                Pair<String, Integer> p2 = new Pair<>("err", 0);
-                                pairSet.add(new TableElement(p1, p2));
-                                ok = 1;
-                            }
-                        }
                     }
                 }
             }
         }
-
         tab.setVal(pairSet);
 
-
-        /*
+                /*
         for (Pair<String,Integer> vl : pairList)
             System.out.println(vl.getKey() + " ==== " + vl.getValue());
 
@@ -423,7 +440,43 @@ public class Functionalitati {
             System.out.println("( " + p1.getKey() + "," + p1.getValue() + " )" + " == " + "( " + p2.getKey() + "," + p2.getValue() + " )");
 
         }
+        }
 
+    public Set<String> firstProductie(String productie,HashMap<String,Set<String>> FIRST,Gramatica gramatica ){
+        Set<String> termFirst=new HashSet<>();
+        Set<String> terminale=gramatica.getTerminale();
 
-    }
+        List<String> elems=Arrays.asList(productie.split(" "));
+        for(String el:elems){
+            if (terminale.contains(el)) {
+                termFirst.add(el);
+                break;
+            }
+            else {
+                    Set<String> firsturi=FIRST.get(el);
+
+                    for(String f:firsturi){
+                        if(!f.equals("~")) {
+                            termFirst.add(f);
+                        }
+
+                    }
+                    if(!firsturi.contains("~"))
+                        break;
+
+                }
+            }
+        return termFirst;
+        }
+
+        private Set<String> deleteWhitespace(Set<String> elem)
+        {
+            Set<String> rez = new HashSet<>();
+            for (String s: elem) {
+                s = s.replaceAll("\n", "");
+                rez.add(s);
+            }
+            return rez;
+
+        }
 }
