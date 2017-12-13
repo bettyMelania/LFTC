@@ -1,12 +1,13 @@
+import javafx.util.Pair;
+
 import java.util.*;
 import java.util.concurrent.LinkedBlockingDeque;
 
 public class Analizator {
     public static boolean analiza(Tabel tabel, String secventa,Gramatica g) {
         Queue<String> stivaIntrare=new LinkedBlockingDeque<>();
-        for(Character c:secventa.toCharArray()){
-            stivaIntrare.add(c.toString());
-        }
+
+        stivaIntrare.addAll(Arrays.asList(secventa.split(" ")));
         stivaIntrare.add("$");
 
         Stack<String> stivaLucru=new Stack<>();
@@ -15,6 +16,7 @@ public class Analizator {
 
 
         List<Integer> bandaDeIesire=new ArrayList<>();
+        List<String> bandaDeIesireProductii=new ArrayList<>();
 
         Set<TableElement> elems= tabel.getVal();
 
@@ -56,29 +58,68 @@ public class Analizator {
                             stivaLucru.add(els[i]);
 
                         bandaDeIesire.add(nrProductie);
+                        bandaDeIesireProductii.add(productie);
                     }
                     break;
                 }
             }
             printBanda(bandaDeIesire);
-            creareTabelRelatii(bandaDeIesire);
+            creareTabelRelatii(bandaDeIesireProductii,g);
 
 
 
 
         }
 
+    }
 
-       // stivaIesire.push("AB");
-       // String f6=stivaIesire.pop();
+    private static void creareTabelRelatii(List<String> bandaDeIesireProductii,Gramatica g) {
+        List<RelatiiTableElement> table=new ArrayList<>();
+        int index=1;
+        int currentProd=0;
 
-        //stivaIntrare.peek() //not remove
-        //String f1=stivaIntrare.poll(); //remove
+        RelatiiTableElement tableEl=new RelatiiTableElement(index,g.getSimbolStart(),-1,-1);
+        table.add(tableEl);
+        List<RelatiiTableElement> linie=new ArrayList<>(); //String-element, Integer,index
+        linie.add(tableEl);
+
+
+        int indexAnterior=-1;
+
+        boolean cont=true;
+        while(cont){
+            cont=false;
+            List<RelatiiTableElement> linieNoua=new ArrayList<>();
+            for(RelatiiTableElement el:linie){
+                if(g.getNeterminale().contains(el.getElement())){
+                    cont=true;
+                    for(String elProd:Arrays.asList(bandaDeIesireProductii.get(currentProd).split(" "))){
+                        index++;
+                        RelatiiTableElement tEl=new RelatiiTableElement(index,elProd,el.getIndex(),indexAnterior);
+                        indexAnterior=index;
+                        linieNoua.add(tEl);
+
+                    }
+                    currentProd++;
+                }
+            }
+            linie.clear();
+            linie=linieNoua;
+            for(RelatiiTableElement Tel:linie){
+                table.add(Tel);
+            }
+            indexAnterior=-1;
+        }
+        printRelatiiTabel(table);
+
 
     }
 
-    private static void creareTabelRelatii(List<Integer> bandaDeIesire) {
-
+    private static void printRelatiiTabel(List<RelatiiTableElement> table) {
+        System.out.println(" Tabel de relatii: ");
+        for(RelatiiTableElement Tel:table){
+            System.out.println("i: "+Tel.getIndex()+" el: "+Tel.getElement()+" parinte: "+Tel.getTata()+" frate: "+Tel.getFrateStanga());
+        }
 
     }
 
