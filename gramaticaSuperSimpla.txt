@@ -20,15 +20,15 @@ print->"print" "(" ptPrint ")"
 ptPrint->string|cifra|identificator
 read->"read" "(" identificator ")"
 atribuire->identificator "=" expresie
-expresie->repeatExp|plus
+expresie->repeatExp plus
 plus->"+" repeatExp plus|~
 repeatExp->exp minus
 minus->"-" exp minus|~
 exp->"(" expresie ")"|identificator|numar
 constanta->"+" numar|"-" numar|numar |"0"
-numar->cifraFara0 cifre
+numar->cifraFara0 cifreP
 cifre->cifra cifre
-cifreP->cifra|~
+cifreP->cifre|~
 litera->"A"|"B"|"C"|"D"|"E"|"F"|"G"|"H"|"I"|"J"|"K"|"L"|"M"|"N"|"O"|"P"|"Q"|"R"|"S"|"T"|"U"|"V"|"W"|"X"|"Y"|"Z"|"a"|"b"|"c"|"d"|"e"|"f"|"g"|"h"|"i"|"j"|"k"|"l"|"m"|"n"|"o"|"p"|"q"|"r"|"s"|"t"|"u"|"v"|"w"|"x"|"y"|"z"
 cifraFara0->"1"|"2"|"3"|"4"|"5"|"6"|"7"|"8"|"9"
 cifra->"0"|cifraFara0
