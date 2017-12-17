@@ -1,20 +1,22 @@
 program,blockCuParanteze,instructiune,blockInstructiuni,io,print,read,ptPrint,caracterRepetare,string,
 identificator,cifra,cifraFara0,litera,atribuire,expresie,plusMinus,termen,orImp,factor,constanta,numar,cifre,cifreP,
-plus,repeatExp,minus,exp
+plus,repeatExp,minus,exp,declaratie,tip
 #
 "program",
 "A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P",
 "Q","R","S","T","U","V","W","X","Y","Z","a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z",
 "1","2","3","4","5","6","7","8","9","0",
 "{","}",";","(",")","_","'","+","-","*","/","=",
-"print","read",
+"print","read","char","int","string"
 #
 program
 #
 program->"program" blockCuParanteze
 blockCuParanteze->"{" instructiune blockInstructiuni "}"
 blockInstructiuni->instructiune blockInstructiuni|~
-instructiune->io ";"|atribuire ";"
+instructiune->io ";"|atribuire ";"|declaratie ";"
+declaratie->tip identificator
+tip->"char"|"string" |"int"
 io->print|read
 print->"print" "(" ptPrint ")"
 ptPrint->string|cifra|identificator
