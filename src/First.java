@@ -39,7 +39,7 @@ public class First {
                 boolean goToNext;
                 for (String prod : entry.getValue().getRezultate()) {
                     goToNext = false;
-                    String prima = prod.substring(0, 1);
+                    String prima = prod.split(" ")[0];
                     if (neterminale.contains(prima)) {
                         Set<String> firsturiDeLa = FIRST.get(prima);
                         for (String s : firsturiDeLa) {
