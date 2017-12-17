@@ -144,15 +144,15 @@ public class CreareTabel {
 
         System.out.println("TABEL");
 
-        String[] stringuri = new String[]{"A","B","C","D","a","+","*","(",")","$"};
+        //String[] stringuri = new String[]{"A","B","C","D","a","+","*","(",")","$"};
 
-        for (String val: stringuri)
+        //for (String val: stringuri)
             for (TableElement elem : tab.getVal())
             {
                 Pair<String,String> p1 = elem.getPozTabel();
                 Pair<String,Integer> p2 = elem.getValTabel();
-                if (p1.getKey().compareTo(val) == 0)
-                    System.out.println("( " + p1.getKey() + "," + p1.getValue() + " )" + " == " + "( " + p2.getKey() + "," + p2.getValue() + " )");
+                //if (p1.getKey().compareTo(val) == 0)
+                System.out.println("( " + p1.getKey() + "," + p1.getValue() + " )" + " == " + "( " + p2.getKey() + "," + p2.getValue() + " )");
             }
         return tab;
         }
