@@ -1,4 +1,4 @@
-program,blockCuParanteze,instructiune,blockInstructiuni,io,print,read,ptPrint,caracterRepetare,caracter,string,identificatorOriceRepeat,identificatorOrice,
+program,blockCuParanteze,instructiune,blockInstructiuni,io,print,read,ptPrint,caracterRepetare,string,identificatorOriceRepeat,identificatorOrice,
 identificator,cifra,cifraFara0,litera,
 #
 "program","A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P",
@@ -10,8 +10,8 @@ identificator,cifra,cifraFara0,litera,
 program
 #
 program->"program" blockCuParanteze
-blockCuParanteze->"{" instructiune ";" blockInstructiuni "}"
-blockInstructiuni->instructiune ";" blockInstructiuni|~
+blockCuParanteze->"{" instructiune blockInstructiuni "}"
+blockInstructiuni->instructiune blockInstructiuni|~
 instructiune->io ";"
 io->print|read
 print->"print" "(" ptPrint ")"
@@ -23,6 +23,5 @@ cifra->"0"|cifraFara0
 identificator->litera identificatorOriceRepeat
 identificatorOrice->cifra |litera |"_"
 identificatorOriceRepeat->identificatorOrice identificatorOriceRepeat|~
-caracter->litera
-string->"'" caracter caracterRepetare "'"
-caracterRepetare->caracter caracterRepetare|~
+string->"'" litera caracterRepetare "'"
+caracterRepetare->litera caracterRepetare|~

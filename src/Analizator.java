@@ -28,7 +28,15 @@ public class Analizator {
                 continue;
             }
 
-            if(!g.getTerminale().contains("\""+headIntrare+"\"")){
+            if(headIntrare.equals(headLucru) && headIntrare.equals("$")){
+                System.out.println("Secventa valida");
+                printBandaI(bandaDeIesire);
+                printBanda(bandaDeIesireProductii);
+                creareTabelRelatii(bandaDeIesireProductii,g);
+                return true;
+            }
+
+            if(!g.getTerminale().contains("\""+headIntrare+"\"") && !headIntrare.equals("$")){
                 System.out.println("Eroare la: "+headIntrare);
                 return false;
             }
