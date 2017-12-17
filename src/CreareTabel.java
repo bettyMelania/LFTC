@@ -70,7 +70,8 @@ public class CreareTabel {
                 for (String term : tab.getTermColumn()) {
                     Pair<String, Integer> savedValues = new Pair<>("", 0);
                     ok = 0;
-                    if (firstVal != null && followVal != null) {
+                    if (firstVal != null && followVal != null)
+                    {
                         for (Pair<Integer, Set<String>> elem : firstVal)
                         {
                             for (String a : elem.getValue())
@@ -84,7 +85,7 @@ public class CreareTabel {
                                                     Pair<String, Integer> p2 = new Pair<>(trip.getSecond(), trip.getThird());
                                                     savedValues = p2;
                                                     pairSet.add(new TableElement(p1, p2));
-                                                    ok = 1;
+                                                    ok ++;
                                                     break;
                                                 }
                                 } else if (a.compareTo("~") == 0)
@@ -100,33 +101,35 @@ public class CreareTabel {
                                                         Pair<String, Integer> p2 = new Pair<>(trip.getSecond(), trip.getThird());
                                                         savedValues = p2;
                                                         pairSet.add(new TableElement(p1, p2));
-                                                        ok = 1;
+                                                        ok ++;
                                                         break;
                                                     }
                                             }
                                             if (ok == 1)
                                                 break;
                                     }
-                                } else if (ok == 1) {
-                                    for (Triplet<String, String, Integer> trip : pairList)
-                                        if (trip.getFirst().compareTo(netermTerm) == 0)
-                                            if (trip.getSecond().compareTo("~") == 0) {
-                                                Pair<String, String> p1 = new Pair<>(netermTerm, term);
-                                                System.out.println("NU ESTE LL(1) IN NETERMINALUL" + term + "PRODUCTIILE ( " + savedValues.getKey() + "," + savedValues.getValue() + " )" + " , (" + p1.getKey() + "," + p1.getValue() + ")");
-                                                break;
-                                            }
-
-                                    break;
                                 }
                             }
-                            if (ok == 0) {
+                        }
+                        if (ok == 0) {
                                 /*
                                 Pair<String, String> p1 = new Pair<>(netermTerm, term);
                                 Pair<String, Integer> p2 = new Pair<>("err", 0);
                                 pairSet.add(new TableElement(p1, p2));
                                 */
-                                ok = 1;
-                            }
+                            ok = 1;
+                        }
+
+                        if (ok > 1) {
+                            for (Triplet<String, String, Integer> trip : pairList)
+                                if (trip.getFirst().compareTo(netermTerm) == 0)
+                                    if (trip.getSecond().compareTo("~") == 0) {
+                                        Pair<String, String> p1 = new Pair<>(netermTerm, term);
+                                        System.out.println("NU ESTE LL(1) IN NETERMINALUL" + term + "PRODUCTIILE ( " + savedValues.getKey() + "," + savedValues.getValue() + " )" + " , (" + p1.getKey() + "," + p1.getValue() + ")");
+                                        break;
+                                    }
+
+                            break;
                         }
                     }
                 }
