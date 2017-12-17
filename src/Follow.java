@@ -109,7 +109,7 @@ public class Follow {
 
 
     private static  void printFollow(HashMap<String, Set<String>> follow) {
-        System.out.println("FOLLOW");
+        System.out.println(" \n \n FOLLOW");
         for(HashMap.Entry<String,Set<String>> entry:follow.entrySet()){
             System.out.print(entry.getKey()+": ");
             for(String s:entry.getValue())
