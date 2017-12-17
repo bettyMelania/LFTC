@@ -7,7 +7,7 @@ import java.util.Set;
 public class Main {
 
     public static void main(String[] args) {
-        Gramatica g=CitireGramatica.citireGramatice("gramaticaSimpla.txt");
+        Gramatica g=CitireGramatica.citireGramatice("gramaticaSuperSimpla.txt");
         if(g==null) {
             System.out.print("gramatica invalida ");
             return;

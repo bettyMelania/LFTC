@@ -1,0 +1,40 @@
+program,blockCuParanteze,blockInstructiuni,declaratie,declvector,instructiune,tip,identificator,atribuire,io,print,read,ptPrintRepetare,ptPrint,
+string,constanta,cifra,numar,expresie,termen,factor,if,for,conditie,relatie,litera,cifraFara0,identificatorOrice,cifre,caracter,caracterRepetare,
+plusMinus,orImp,ifElse
+#
+"program","{","}",";"," ","[]","=","new","[","]","(",")",":","+","-","*","/","if","for","else","<","++","<=","==","!=",">=",">","!",
+"char","string","int","1","2","3","4","5","6","7","8","9","0","_","'","A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P",
+"Q","R","S","T","U","V","W","X","Y","Z","a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z",
+"read","print"
+#
+program
+#
+program->"program"  blockCuParanteze
+blockCuParanteze->"{"  instructiune blockInstructiuni "}"
+blockInstructiuni->~|instructiune ";"  blockInstructiuni
+instructiune->io ";"|atribuire ";"
+io->print|read
+print->"print" "("  ptPrint ptPrintRepetare ")"
+ptPrint->string|constanta|cifra|identificator |identificator "["  numar "]" |":" ;
+ptPrintRepetare->~|ptPrint ptPrintRepetare
+read->"read" "("  identificator ")"
+atribuire->identificator "="  expresie
+expresie->expresie plusMinus |termen
+plusMinus->"+" termen |"-" termen |termen
+termen->termen orImp |factor
+orImp->"*" factor |"/" factor
+factor->expresie|"(" constanta ")"|numar |identificator
+relatie->"<" |"<=" |"==" |"!=" |">=" |">" |"!"
+tip->"char" |"string" |"int"
+litera->"A"|"B"|"C"|"D"|"E"|"F"|"G"|"H"|"I"|"J"|"K"|"L"|"M"|"N"|"O"|"P"|"Q"|"R"|"S"|"T"|"U"|"V"|"W"|"X"|"Y"|"Z"|"a"|"b"|"c"|"d"|"e" |"f"|"g"|"h"|"i"|"j"|"k"|"l"|"m"|"n"|"o"|"p"|"q"|"r"|"s"|"t"|"u"|"v"|"w"|"x"|"y"|"z"
+cifraFara0->"1"|"2"|"3"|"4"|"5"|"6"|"7"|"8"|"9"
+cifra->"0"|cifraFara0
+identificator->litera identificatorOriceRepeat
+identificatorOrice->cifra |litera |"_"
+identificatorOriceRepeat->identificatorOrice identificatorOriceRepeat|~
+constanta->"+" numar |"-" numar |numar |"0"
+numar->cifraFara0 cifre;
+cifre->~|cifra cifre
+caracter->litera
+string->"'" caracter caracterRepetare "'"
+caracterRepetare->~|caracter caracterRepetare

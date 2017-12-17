@@ -1,0 +1,24 @@
+program 
+{  
+ int a ;
+ int [ ] sir = new int [ 12 ] ;
+ int i ;
+ for ( i = 0 ; i < 3 ; i ++ ) {
+	a = i ;
+ }
+ print ( " Enter an integer: " ) ;  
+ read ( a ) ; 
+ 
+ int b = 15 ;
+ if ( a <= 10 ) {
+ a = b * 1 + 4 ;
+ }
+ else {
+  for ( i = 0 ; i < 5 ; i ++ ) {
+    a = a + 2 ;
+  }
+ }
+ string res = "result:" ;
+ print ( res , " and " , a ) ;
+ 
+}
