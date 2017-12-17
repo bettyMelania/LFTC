@@ -2,6 +2,7 @@ import javafx.util.Pair;
 
 import java.util.*;
 import java.util.concurrent.LinkedBlockingDeque;
+import java.util.concurrent.LinkedBlockingQueue;
 
 public class Analizator {
     public static boolean analiza(Tabel tabel, String secventa,Gramatica g) {
@@ -23,27 +24,23 @@ public class Analizator {
         while(true){
             String headIntrare=stivaIntrare.peek();
             String headLucru=stivaLucru.peek();
-            if(headIntrare.isEmpty() && headLucru.isEmpty()){
-                System.out.println("Secventa valida");
-                return true;
-            }
-
-            // pop
-            if(headLucru.equals(headIntrare)){
-                stivaLucru.pop();
-                stivaIntrare.poll();
-                continue;
-            }
-
-            if(g.getTerminale().contains(headLucru)){
-                System.out.println("Eroare la: "+headIntrare);
-                return false;
-            }
-
-            // head Lucru este neterminal, facem expandare
 
             for(TableElement tE:elems){
                 if(tE.getPozTabel().getKey().equals(headLucru) && tE.getPozTabel().getValue().equals(headIntrare)){
+                    if(tE.getValTabel().getKey().equals("acc")){
+                        System.out.println("Secventa valida");
+                        printBandaI(bandaDeIesire);
+                        printBanda(bandaDeIesireProductii);
+                        creareTabelRelatii(bandaDeIesireProductii,g);
+                        return true;
+                    }
+
+                    if(tE.getValTabel().getKey().equals("pop")){
+                        stivaLucru.pop();
+                        stivaIntrare.poll();
+                        break;
+                    }
+
                     if(tE.getValTabel().getKey().equals("err")){
                         System.out.println("Eroare la: "+headIntrare);
                         return false;
@@ -52,22 +49,19 @@ public class Analizator {
                         String productie=tE.getValTabel().getKey();
                         int nrProductie=tE.getValTabel().getValue();
                         stivaLucru.pop();
-                        String[] els=productie.split(" ");
+                        if(!productie.equals("~")) {
+                            String[] els = productie.split(" ");
 
-                        for(int i=els.length-1;i>=0;i--)
-                            stivaLucru.add(els[i]);
-
+                            for (int i = els.length - 1; i >= 0; i--)
+                                stivaLucru.add(els[i]);
+                        }
                         bandaDeIesire.add(nrProductie);
                         bandaDeIesireProductii.add(productie);
+
                     }
                     break;
                 }
             }
-            printBanda(bandaDeIesire);
-            creareTabelRelatii(bandaDeIesireProductii,g);
-
-
-
 
         }
 
@@ -80,12 +74,40 @@ public class Analizator {
 
         RelatiiTableElement tableEl=new RelatiiTableElement(index,g.getSimbolStart(),-1,-1);
         table.add(tableEl);
-        List<RelatiiTableElement> linie=new ArrayList<>(); //String-element, Integer,index
+        List<RelatiiTableElement> linie=new ArrayList<>();
         linie.add(tableEl);
 
 
         int indexAnterior=-1;
 
+        Stack<RelatiiTableElement> stack=new Stack<>();
+        stack.add(tableEl);
+        //parcurgere in adancime
+        while(!stack.isEmpty()){
+            RelatiiTableElement elCurent=stack.pop();
+            if(g.getNeterminale().contains(elCurent.getElement())){
+                indexAnterior=-1;
+                String[] productie=bandaDeIesireProductii.get(currentProd).split(" ");
+                for(int i=productie.length-1;i>=0;i--){
+                    String elProd=productie[i];
+                    index++;
+                    RelatiiTableElement tEl=new RelatiiTableElement(index,elProd,elCurent.getIndex(),indexAnterior);
+                    indexAnterior=index;
+                    table.add(tEl);
+                    if(g.getNeterminale().contains(tEl.getElement()))
+                        stack.add(tEl);
+                }
+                currentProd++;
+
+            }
+
+
+        }
+
+
+
+
+/*
         boolean cont=true;
         while(cont){
             cont=false;
@@ -110,6 +132,8 @@ public class Analizator {
             }
             indexAnterior=-1;
         }
+        */
+
         printRelatiiTabel(table);
 
 
@@ -123,8 +147,17 @@ public class Analizator {
 
     }
 
-    private static void printBanda(List<Integer> bandaDeIesire) {
-        System.out.println("Banda de iesire: ");
+    private static void printBanda(List<String> bandaDeIesire) {
+        System.out.println(" ");
+        System.out.print("Banda de iesire: ");
+        for (String p:bandaDeIesire){
+            System.out.print(p+" | ");
+        }
+    }
+
+    private static void printBandaI(List<Integer> bandaDeIesire) {
+        System.out.println(" ");
+        System.out.print("Banda de iesire: ");
         for (int nr:bandaDeIesire){
             System.out.print(nr+" ");
         }

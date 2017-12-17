@@ -18,7 +18,7 @@ public class Main {
         Tabel tabel=CreareTabel.creareTabel(g,FIRST,FOLLOW);
         if(tabel!=null) {
             String secventa = LoadFile.getSecventa("secventa.txt");
-            //Analizator.analiza(tabel, secventa, g);
+            Analizator.analiza(tabel, secventa, g);
         }
         /*
         List<String> banda=new ArrayList<>();

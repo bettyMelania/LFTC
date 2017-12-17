@@ -11,7 +11,7 @@ public class CreareTabel {
 
     public static Tabel creareTabel(Gramatica g, HashMap<String, Set<String>> FIRST, HashMap<String, Set<String>> FOLLOW)
     {
-        Set<String> netermTermLine = g.getNeterminale();
+        Set<String> netermTermLine = new HashSet<>();netermTermLine.addAll(g.getNeterminale());
         Set<String> termColumn = g.getTerminale();
         HashMap<String,Productie> productii = g.getProductii();
         List<Triplet<String,String,Integer>> pairList = new ArrayList<>();
@@ -47,6 +47,11 @@ public class CreareTabel {
                     } else if (netermTerm.compareTo(term) == 0 && netermTerm.compareTo("$") == 0 && term.compareTo("$") == 0) {
                         Pair<String, String> p1 = new Pair<>(netermTerm, term);
                         Pair<String, Integer> p2 = new Pair<>("acc", 0);
+                        pairSet.add(new TableElement(p1, p2));
+                    }
+                    else if(netermTerm.compareTo(term) != 0){
+                        Pair<String, String> p1 = new Pair<>(netermTerm, term);
+                        Pair<String, Integer> p2 = new Pair<>("err", 0);
                         pairSet.add(new TableElement(p1, p2));
                     }
                 }
@@ -112,11 +117,11 @@ public class CreareTabel {
                             }
                         }
                         if (ok == 0) {
-                                /*
+
                                 Pair<String, String> p1 = new Pair<>(netermTerm, term);
                                 Pair<String, Integer> p2 = new Pair<>("err", 0);
                                 pairSet.add(new TableElement(p1, p2));
-                                */
+
                             ok = 1;
                         }
 
