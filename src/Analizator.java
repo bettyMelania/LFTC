@@ -23,9 +23,18 @@ public class Analizator {
         while(true){
             String headIntrare=stivaIntrare.peek();
             String headLucru=stivaLucru.peek();
+            if(headIntrare.isEmpty()){
+                stivaIntrare.poll();
+                continue;
+            }
+
+            if(!g.getTerminale().contains("\""+headIntrare+"\"")){
+                System.out.println("Eroare la: "+headIntrare);
+                return false;
+            }
 
             for(TableElement tE:elems){
-                if(tE.getPozTabel().getKey().equals(headLucru) && tE.getPozTabel().getValue().equals(headIntrare)){
+                if(tE.getPozTabel().getKey().equals(headLucru) && tE.getPozTabel().getValue().equals("\""+headIntrare+"\"")){
                     if(tE.getValTabel().getKey().equals("acc")){
                         System.out.println("Secventa valida");
                         printBandaI(bandaDeIesire);
@@ -61,6 +70,7 @@ public class Analizator {
                     break;
                 }
             }
+
 
         }
 
