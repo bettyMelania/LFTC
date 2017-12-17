@@ -36,6 +36,7 @@ public class Analizator {
                 return true;
             }
 
+
             if(!g.getTerminale().contains("\""+headIntrare+"\"") && !headIntrare.equals("$")){
                 System.out.println("Eroare la: "+headIntrare);
                 return false;
