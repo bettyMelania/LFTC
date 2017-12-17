@@ -1,11 +1,12 @@
-program,blockCuParanteze,instructiune,blockInstructiuni,io,print,read,ptPrint,caracterRepetare,string,identificatorOriceRepeat,identificatorOrice,
-identificator,cifra,cifraFara0,litera,atribuire,expresie,plusMinus,termen,orImp,factor,constanta,numar,cifre
+program,blockCuParanteze,instructiune,blockInstructiuni,io,print,read,ptPrint,caracterRepetare,string,
+identificator,cifra,cifraFara0,litera,atribuire,expresie,plusMinus,termen,orImp,factor,constanta,numar,cifre,cifreP,
+plus,repeatExp,minus,exp
 #
 "program",
 "A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P",
 "Q","R","S","T","U","V","W","X","Y","Z","a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z",
 "1","2","3","4","5","6","7","8","9","0",
-"{","}",";","(",")","_","'","+","-","*","/",
+"{","}",";","(",")","_","'","+","-","*","/","=",
 "print","read",
 #
 program
@@ -19,19 +20,18 @@ print->"print" "(" ptPrint ")"
 ptPrint->string|cifra|identificator
 read->"read" "(" identificator ")"
 atribuire->identificator "=" expresie
-expresie->expresie plusMinus|termen
-plusMinus->"+" termen|"-" termen|termen
-termen->termen orImp|factor
-orImp->"*" factor|"/" factor
-factor->expresie|"(" constanta ")"|numar |identificator
+expresie->repeatExp|plus
+plus->"+" repeatExp plus|~
+repeatExp->exp minus
+minus->"-" exp minus|~
+exp->"(" expresie ")"|identificator|numar
 constanta->"+" numar|"-" numar|numar |"0"
 numar->cifraFara0 cifre
-cifre->cifra cifre|~
+cifre->cifra cifre
+cifreP->cifra|~
 litera->"A"|"B"|"C"|"D"|"E"|"F"|"G"|"H"|"I"|"J"|"K"|"L"|"M"|"N"|"O"|"P"|"Q"|"R"|"S"|"T"|"U"|"V"|"W"|"X"|"Y"|"Z"|"a"|"b"|"c"|"d"|"e"|"f"|"g"|"h"|"i"|"j"|"k"|"l"|"m"|"n"|"o"|"p"|"q"|"r"|"s"|"t"|"u"|"v"|"w"|"x"|"y"|"z"
 cifraFara0->"1"|"2"|"3"|"4"|"5"|"6"|"7"|"8"|"9"
 cifra->"0"|cifraFara0
-identificator->litera identificatorOriceRepeat
-identificatorOrice->cifra |litera |"_"
-identificatorOriceRepeat->identificatorOrice identificatorOriceRepeat|~
+identificator->litera
 string->"'" litera caracterRepetare "'"
 caracterRepetare->litera caracterRepetare|~
