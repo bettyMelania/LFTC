@@ -88,55 +88,24 @@ public class Analizator {
             if(g.getNeterminale().contains(elCurent.getElement())){
                 indexAnterior=-1;
                 String[] productie=bandaDeIesireProductii.get(currentProd).split(" ");
-                for(int i=productie.length-1;i>=0;i--){
+                List<RelatiiTableElement> toADD=new ArrayList<>();
+                for(int i=0;i<productie.length;i++){
                     String elProd=productie[i];
                     index++;
                     RelatiiTableElement tEl=new RelatiiTableElement(index,elProd,elCurent.getIndex(),indexAnterior);
+                    toADD.add(tEl);
                     indexAnterior=index;
                     table.add(tEl);
-                    if(g.getNeterminale().contains(tEl.getElement()))
-                        stack.add(tEl);
+                }
+                for(int j=toADD.size()-1;j>=0;j--){
+                    if(g.getNeterminale().contains(toADD.get(j).getElement()))
+                        stack.add(toADD.get(j));
                 }
                 currentProd++;
 
             }
-
-
         }
-
-
-
-
-/*
-        boolean cont=true;
-        while(cont){
-            cont=false;
-            List<RelatiiTableElement> linieNoua=new ArrayList<>();
-            for(RelatiiTableElement el:linie){
-                if(g.getNeterminale().contains(el.getElement())){
-                    cont=true;
-                    for(String elProd:Arrays.asList(bandaDeIesireProductii.get(currentProd).split(" "))){
-                        index++;
-                        RelatiiTableElement tEl=new RelatiiTableElement(index,elProd,el.getIndex(),indexAnterior);
-                        indexAnterior=index;
-                        linieNoua.add(tEl);
-
-                    }
-                    currentProd++;
-                }
-            }
-            linie.clear();
-            linie=linieNoua;
-            for(RelatiiTableElement Tel:linie){
-                table.add(Tel);
-            }
-            indexAnterior=-1;
-        }
-        */
-
         printRelatiiTabel(table);
-
-
     }
 
     private static void printRelatiiTabel(List<RelatiiTableElement> table) {
