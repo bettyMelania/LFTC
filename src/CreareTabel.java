@@ -130,8 +130,8 @@ public class CreareTabel {
                                 if (trip.getFirst().compareTo(netermTerm) == 0)
                                     if (trip.getSecond().compareTo("~") == 0) {
                                         Pair<String, String> p1 = new Pair<>(netermTerm, term);
-                                        System.out.println("NU ESTE LL(1) IN NETERMINALUL" + term + "PRODUCTIILE ( " + savedValues.getKey() + "," + savedValues.getValue() + " )" + " , (" + p1.getKey() + "," + p1.getValue() + ")");
-                                        break;
+                                        System.out.println("NU ESTE LL(1) IN NETERMINALUL " + netermTerm  + " si terminalul "+term+"  PRODUCTIILE ( " + savedValues.getKey() + "," + savedValues.getValue() + " )" + " , (" + p1.getKey() + "," + p1.getValue() + ")");
+                                        return null;
                                     }
 
                             break;

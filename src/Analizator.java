@@ -2,7 +2,6 @@ import javafx.util.Pair;
 
 import java.util.*;
 import java.util.concurrent.LinkedBlockingDeque;
-import java.util.concurrent.LinkedBlockingQueue;
 
 public class Analizator {
     public static boolean analiza(Tabel tabel, String secventa,Gramatica g) {
