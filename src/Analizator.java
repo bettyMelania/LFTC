@@ -44,13 +44,6 @@ public class Analizator {
 
             for(TableElement tE:elems){
                 if(tE.getPozTabel().getKey().equals(headLucru) && tE.getPozTabel().getValue().equals("\""+headIntrare+"\"")){
-                    if(tE.getValTabel().getKey().equals("acc")){
-                        System.out.println("Secventa valida");
-                        printBandaI(bandaDeIesire);
-                        printBanda(bandaDeIesireProductii);
-                        creareTabelRelatii(bandaDeIesireProductii,g);
-                        return true;
-                    }
 
                     if(tE.getValTabel().getKey().equals("pop")){
                         stivaLucru.pop();

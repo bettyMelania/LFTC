@@ -1,0 +1,10 @@
+program {
+ int a ;
+ int b ;
+ read ( a ) ;
+ read ( b ) ;
+ print ( a ) ;
+ print ( b ) ;
+ a = ( a - 1 2 + 5 - 4 ) - 5 + ( a + 1 ) ;
+ print ( ' E l e m e n t ' ) ;
+ print ( a ) ; }
